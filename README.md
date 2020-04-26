@@ -1,14 +1,13 @@
 
 -   [Categorical Spatial Interpolation with
     R](#categorical-spatial-interpolation-with-r)
-    -   [Outline](#outline)
     -   [Reproducibility](#reproducibility)
     -   [Preparations](#preparations)
     -   [Load Data](#load-data)
     -   [Preprocess Data](#preprocess-data)
     -   [Visualize](#visualize)
 
-Categorical Spatial Interpolation with R {#categorical-spatial-interpolation-with-r}
+Categorical Spatial Interpolation with R 
 ========================================
 
 This document adapts [a great blog post from Timo Grossenbacher](https://timogrossenbacher.ch/2018/03/categorical-spatial-interpolation-with-r/) on spatial interpolation into a lecture for [IntroRangeR](https://github.com/devanmcg/IntroRangeR).
@@ -28,35 +27,16 @@ Servus!”](https://www.amazon.de/Gr%C3%BCezi-Moin-Servus-Wie-sprechen/dp/349963
 Each point is the location of a person who selected a certain
 pronunciation [in an online survey](https://timogrossenbacher.ch/2017/03/heres-how-670000-people-speak-german/).
 
-Outline {#outline}
--------
-
-This tutorial is structured as follows:
-
--   Read in the data, first the geometries (Germany political
-    boundaries), then the point data upon which the interpolation will
-    be based on.
--   Preprocess the data (simplify geometries, convert CSV point data
-    into an `sf` object, reproject the geodata into the ETRS CRS, clip
-    the point data to Germany, so data outside of Germany is discarded).
--   Then, a regular grid without “data” is created. Each cell in this
-    grid will later be interpolated from the point data.
--   Run the spatial interpolation with the `kknn` package. Since this is
-    quite computationally and memory intensive, the grid is split up
-    into 20 batches, and each batch is computed by a single CPU core in
-    parallel.
--   Visualize the resulting grid with `ggplot2`.
-
-Reproducibility {#reproducibility}
+Reproducibility 
 ---------------
 
 This document is an edited version of [the original repository](https://github.com/grssnbchr/categorical-spatial-interpolation), which I've cloned and posted [in my own repo](https://github.com/devanmcg/categorical-spatial-interpolation).
 I've done all this under the original [original MIT license](https://github.com/grssnbchr/categorical-spatial-interpolation/blob/master/LICENSE), [which has been retained](https://github.com/devanmcg/categorical-spatial-interpolation/blob/IntroRangeR/LICENSE). 
 
-Preparations {#preparations}
+Preparations 
 ------------
 
-### Setup {#setup}
+### Setup 
 
 Packages include: 
 
@@ -74,10 +54,10 @@ pacman::p_load(tidyverse, forcats, sf, rnaturalearth, kknn)
   crs_etrs = "+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs"
 
 ```
-Load Data {#load-data}
+Load Data 
 ---------
 
-### Geometries {#geometries}
+### Geometries 
 
 Political boundaries of Germany can be directly downloaded from
 naturalearth.com with the `rnaturalearth` package.
@@ -117,7 +97,7 @@ German states are filtered.
       summarize() 
 ```
 
-### Point Data {#point-data}
+### Point Data 
 
 The point data are loaded from a CSV file (`phrase_7.csv`). 
 It contains a random 150k sample of the whole data
@@ -156,7 +136,7 @@ German-speaking region of Europe (Germany, Austria, Switzerland, etc.).
         st_transform(crs_etrs)
 ```
 
-### Cities {#cities}
+### Cities 
 
 I also labelled some big German cities in the map to provide some
 orientation. These are available from simplemaps.com (there are
@@ -181,10 +161,10 @@ revealed…).
           st_transform(crs_etrs)
 ```
 
-Preprocess Data {#preprocess-data}
+Preprocess Data 
 ---------------
 
-### Clip Point Data to Buffered Germany {#clip-point-data-to-buffered-germany}
+### Clip Point Data to Buffered Germany 
 
 The 150k point sample covers the whole German-speaking
 region: 
@@ -211,7 +191,7 @@ Otherwise, interpolations close to the German border would look weird.
 
 ```
 
-### Make Regular Grid {#make-regular-grid}
+### Make Regular Grid 
 
 Interpolation begins with creating a grid, in which the algorithm predicts the value of cells without a given value from nearby cells that do have values.
 
@@ -246,7 +226,7 @@ The height of the grid in pixels is computed from the width (because that depend
 ```
 
 
-### Prepare input data {#prepare-training-set}
+### Prepare input data
 
 First, convert the geometric point data set back to a regular data
 frame (`tibble`), where `lon` and `lat` are nothing more than numeric values without any geographical meaning.
@@ -276,7 +256,7 @@ But bear in mind: The more we summarize the data set, the more local specialitie
         select(-num)
 ```
 
-### Run KNN interpolation procedure {#run-knn}
+### Run KNN interpolation procedure 
 
 We use the `kknn` function from the same-named package to interpolate from the input point data, 
 `dialects_input`, to the empty grid `dialects_output`. 
@@ -342,11 +322,7 @@ transformed into a `sf` object and the data from the raster grid are be clipped 
         st_intersection(germany)
 ```
 
-
-
-
-
-Visualize {#visualize}
+Visualize 
 ---------
 
 The basic rasterized data:
