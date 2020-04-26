@@ -72,8 +72,6 @@ German states are filtered.
                            type = 'states', 
                            returnclass = 'sf',
                            category = 'cultural')
-# Load pre-saved R object
-# admin1_10 <- ne_download(scale = 10, type = 'states', category = 'cultural')
 # I stored this as an R object to save time.
  load("input/NaturalEarthGlobalAdmin1_10_sf.RData")
  admin1_10 <- NaturalEarthGlobalAdmin1_10_sf
