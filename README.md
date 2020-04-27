@@ -364,6 +364,8 @@ And the final product:
       scale_fill_viridis_d("German dialects of\nverb 'to chatter' ") +
       theme(axis.title = element_blank())
 ```
+<img src="https://raw.githubusercontent.com/devanmcg/categorical-spatial-interpolation/IntroRangeR/PrettyMap.png" width="75%" />
+
 Summarize data 
 --------------
 
@@ -382,7 +384,7 @@ Create a table of dominant dialect per state, and report the frequency of use.
           slice(1)
  ``` 
 
-<img src="https://raw.githubusercontent.com/devanmcg/categorical-spatial-interpolation/IntroRangeR/PrettyMap.png" width="75%" />
+
 
  [Original blog post and tutorial on how to spatially interpolate such a map with R's `ggplot2` and `kknn` packages and some parallel processing](https://timogrossenbacher.ch/2018/03/categorical-spatial-interpolation-with-r). Instructions on how to use this can be found there.
 
