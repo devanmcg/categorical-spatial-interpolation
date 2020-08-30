@@ -137,7 +137,8 @@ German-speaking region of Europe (Germany, Austria, Switzerland, etc.).
 ### Cities 
 
 I also labelled some big German cities in the map to provide some
-orientation. These are available from simplemaps.com (there are
+orientation. 
+These are available from simplemaps.com (there are
 certainly other data sets, this is just what a quick DuckDuckGo search
 revealed…).
 
